@@ -1,0 +1,34 @@
+<div class="container landing">
+    <div class="jumbotron">
+        <span class="fa fa-comments"></span><h1>ChatHub</h1>
+        <div><small>Only for the cool kids.</small></div>
+        <p><a href="/user/login" class="btn btn-success btn-lg">Log in</a></p>
+        <div id="signup-form" class="landing-form">
+            <form role="form" action="/user/create" method="POST">
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" name="firstName">
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" name="lastName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="password">
+                </div>
+                <div class="form-group">
+                    <label for="passwordConfirm">Confirm Password</label>
+                    <input type="password" class="form-control" name="passwordConfirm">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
