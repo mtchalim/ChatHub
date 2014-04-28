@@ -30,6 +30,19 @@ module.exports.routes = {
     view: 'homepage'
   },
 
+  // Auth Routes
+  'post /login': 'AuthController.login',
+  'get /logout': 'AuthController.logout',
+
+  // User Routes
+  '/user/signup': 'User.signup',
+  'post /user/create': 'User.create',
+  '/user/login': 'User.login',
+  '/user/show/:id': 'User.show',
+
+  // Chatroom Routes
+  'post /chatroom/create': 'Chatroom.create'
+
 
   // Custom routes here...
 

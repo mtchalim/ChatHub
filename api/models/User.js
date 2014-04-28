@@ -5,6 +5,8 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
+var bcrypt = require('bcrypt');
+
 module.exports = {
 
   identity: 'User',
@@ -42,6 +44,15 @@ module.exports = {
       collection: 'Message',
       via: 'poster'
     }
+  },
+
+  beforeCreate: function (user, next) {
+  	bcrypt.hash(user.password, 10, function (err, hash) {
+  		if (err) next(err);
+
+  		user.password = hash;
+  		next(null, user);
+  	});
   }
 
 };
