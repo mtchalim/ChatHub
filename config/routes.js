@@ -41,8 +41,11 @@ module.exports.routes = {
   '/user/show/:id': 'User.show',
 
   // Chatroom Routes
-  'post /chatroom/create': 'Chatroom.create'
-
+  'post /chatroom/create': 'Chatroom.create',
+  '/chatroom/show/:id': 'Chatroom.show',
+  
+  // Message Routes
+  '/message/create': 'Message.create'
 
   // Custom routes here...
 
