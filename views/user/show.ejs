@@ -10,6 +10,11 @@
 				<%= user.rooms[i].name %></a>
 			</li>
 		<% } %>
+		<% for(var i=0; i<user.allowedRooms.length; i++) { %>
+			<li><a href="/chatroom/show/<%= user.allowedRooms[i].id %>">
+				<%= user.allowedRooms[i].name %></a>
+			</li>
+		<% } %>
 	</ul>
 	<form action="/chatroom/create" method="POST">
 		<input type="hidden" name="owner" value=<%= user.id %>>
