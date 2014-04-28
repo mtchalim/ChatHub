@@ -20,7 +20,8 @@ module.exports.policies = {
   UserController: {
   	'create': true,
   	'signup': true,
-  	'login': true
+  	'login': true,
+  	'invite': 'roomAuth'
   },
   AuthController: {
   	'*': true

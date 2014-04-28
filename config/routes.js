@@ -39,11 +39,14 @@ module.exports.routes = {
   'post /user/create': 'User.create',
   '/user/login': 'User.login',
   '/user/show/:id': 'User.show',
+  'post /user/grantRoomAccess': 'User.grantRoomAccess',
+  'post /user/revokeRoomAccess': 'User.revokeRoomAccess',
+  '/chatroom/invite/:id': 'User.invite', // h4xx0r
 
   // Chatroom Routes
   'post /chatroom/create': 'Chatroom.create',
   '/chatroom/show/:id': 'Chatroom.show',
-  
+
   // Message Routes
   '/message/create': 'Message.create'
 

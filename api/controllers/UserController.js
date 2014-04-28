@@ -38,6 +38,48 @@ module.exports = {
 					user: user
 				});
 		});
+	},
+
+	grantRoomAccess: function(req, res, next) {
+		User.findOne(req.body.userId)
+		.populate('allowedRooms')
+		.exec(function (err, user) {
+			if (err) return next(err);
+
+			user.allowedRooms.add(req.body.chatroom);
+			user.save(function (err) {});
+			return res.redirect('/chatroom/show/' + req.body.chatroom);
+		});
+	},
+
+	revokeRoomAccess: function(req, res, next) {
+		User.findOne(req.body.userId)
+		.populate('allowedRooms')
+		.exec(function (err, user) {
+			if (err) return next(err);
+
+			user.allowedRooms.remove(req.body.chatroom);
+			user.save(function (err) {});
+			return res.redirect('/chatroom/show/' + req.body.chatroom);
+		});
+	},
+
+	invite: function (req, res, next) {
+		User.find()
+		.populate('allowedRooms')
+		.exec(function (err, users) {
+			if (err) return next(err);
+			if (!users) return next();
+
+			var userList = _.reject(users, function (usr) {
+				return usr.id == req.session.passport.user;
+			});
+
+			res.view({
+				users: userList,
+				chatroom: req.param('id')
+			});
+		});
 	}
 
 };
