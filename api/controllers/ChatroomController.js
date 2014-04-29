@@ -8,7 +8,7 @@
 module.exports = {
 
 	create: function(req, res, next) {
-		Chatroom.create(req.params.all(), function chatCreated(err, chatroom) {
+		Chatroom.create(req.params.all(), function (err, chatroom) {
 			if (err) return next(err);
 
 			res.redirect('/chatroom/show/' + chatroom.id);
@@ -40,6 +40,13 @@ module.exports = {
 				currentUser: req.session.passport.user
 			});
 		});
+	},
+
+	joinRoom: function (req, res, next) {
+		var room = req.param('room');
+		sails.sockets.join(req.socket, room);
+		sails.sockets.broadcast(room, 'join', {msg: "hi!"});
+		res.ok();
 	}
 	
 };

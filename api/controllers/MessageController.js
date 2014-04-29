@@ -8,10 +8,11 @@
 module.exports = {
 	
 	create: function(req, res, next) {
-		Message.create(req.params.all(), function messageCreated(err, message) {
+		Message.create(req.params.all(), function (err, message) {
 			if (err) return next(err);
 
-			res.redirect('/chatroom/show/' + req.body.room);
+			sails.sockets.broadcast(message.room, 'created', { msg: message.message });
+			res.ok();
 		});
 	}
 };

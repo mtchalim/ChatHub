@@ -12,7 +12,7 @@ module.exports = {
 	},
 
 	create: function(req, res, next) {
-		User.create(req.params.all(), function userCreated(err, user) {
+		User.create(req.params.all(), function (err, user) {
 			if (err) return next(err);
 			
 			req.login(user, function (err) {
