@@ -2,12 +2,16 @@
 	<p>Messages:</p>
 	<div id="messages">
 		<% for(var i=0; i<chatroom.messages.length; i++) { %>
-			<p><%= chatroom.messages[i].message %></p>
+			<p>
+				<b><%= chatroom.messages[i].posterName %>:</b>
+				<%= chatroom.messages[i].message %>
+			</p>
 		<% } %>
 	</div>
 	<form id="chat-input">
 		<input type="hidden" name="room" value=<%= chatroom.id %>>
 		<input type="hidden" name="poster" value=<%= currentUser %>>
+		<input type="hidden" name="posterName" value="<%= currentUserName %>">
 		<input type="text" name="message" id="message-input">
 		<button type="submit" class="btn btn-default">Send</button>
 	</form>
@@ -19,7 +23,8 @@
 			console.log(data.msg);
 		});
 		io.socket.on('created', function (data) {
-			$('#messages').append('<p>'+ data.msg + '</p>');
+			$('#messages').append(
+				'<p><b>' + data.poster + ':</b>' + data.msg + '</p>');
 		});
 		$('#chat-input').on('submit', function (e) {
 			e.preventDefault();

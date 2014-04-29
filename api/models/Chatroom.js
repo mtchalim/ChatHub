@@ -19,6 +19,10 @@ module.exports = {
   	headline: {
   		type: 'string'
   	},
+    ownerName: {
+      type: 'string',
+      required: true
+    },
 
   	owner: {
   		model: 'User'

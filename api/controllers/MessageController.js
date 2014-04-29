@@ -11,7 +11,8 @@ module.exports = {
 		Message.create(req.params.all(), function (err, message) {
 			if (err) return next(err);
 
-			sails.sockets.broadcast(message.room, 'created', { msg: message.message });
+			sails.sockets.broadcast(message.room, 'created', 
+				{ msg: message.message, poster:message.posterName });
 			res.ok();
 		});
 	}

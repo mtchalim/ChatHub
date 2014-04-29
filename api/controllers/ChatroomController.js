@@ -37,7 +37,8 @@ module.exports = {
 
 			res.view({
 				chatroom: chatroom,
-				currentUser: req.session.passport.user
+				currentUser: req.session.passport.user,
+				currentUserName: req.session.displayName
 			});
 		});
 	},

@@ -19,6 +19,7 @@ module.exports = {
 				if (err) return next(err);
 
 				req.session.authenticated = true;
+				req.session.displayName = user.firstName + " " + user.lastName;
 				return res.redirect('/user/show/' + user.id);
 			});
 		})

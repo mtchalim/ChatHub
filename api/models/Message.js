@@ -16,6 +16,10 @@ module.exports = {
   		type: 'string',
   		required: true
   	},
+    posterName: {
+      type: 'string',
+      required: true
+    },
 
   	poster: {
   		model: 'User'
