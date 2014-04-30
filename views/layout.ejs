@@ -23,6 +23,16 @@
     <!--TEMPLATES-->
     
     <!--TEMPLATES END-->
+    <script type="text/javascript">
+    $(function() {
+      io.socket.on('online', function (data) {
+        console.log(data.msg);
+      });
+      io.socket.on('offline', function (data) {
+        console.log(data.msg);
+      });
+    });
+    </script>
 
   </body>
 </html>

@@ -44,23 +44,17 @@ module.exports = {
 	},
 
 	joinRoom: function (req, res, next) {
-		var room = req.param('room'),
-				username = req.session.displayName;
-
-		var joinNotice = username + ' has joined the room.';
+		var room = req.param('room');
 
 		sails.sockets.join(req.socket, room);
-		sails.sockets.broadcast(room, 'join', {msg: joinNotice}, req.socket);
+		sails.sockets.broadcast(room, 'join', {msg: req.session.displayName + ' has joined the room.'}, req.socket);
 		res.ok();
 	},
 
 	leaveRoom: function (req, res, next) {
-		var room = req.param('room'),
-				username = req.session.displayName;
+		var room = req.param('room');
 
-		var leaveNotice = username + ' has left the room.';
-
-		sails.sockets.broadcast(room, 'leave', {msg: leaveNotice}, req.socket);
+		sails.sockets.broadcast(room, 'leave', {msg: req.session.displayName + ' has left the room.'}, req.socket);
 		sails.sockets.leave(req.socket, room);
 	}
 	
