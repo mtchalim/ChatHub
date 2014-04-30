@@ -50,7 +50,7 @@ module.exports = {
 
 			user.allowedRooms.add(req.body.chatroom);
 			user.save(function (err) {});
-			return res.redirect('/chatroom/show/' + req.body.chatroom);
+			res.redirect('/chatroom/invite/' + req.body.chatroom + '/user/' + req.session.passport.user);
 		});
 	},
 
@@ -62,7 +62,7 @@ module.exports = {
 
 			user.allowedRooms.remove(req.body.chatroom);
 			user.save(function (err) {});
-			return res.redirect('/chatroom/show/' + req.body.chatroom);
+			res.redirect('/chatroom/invite/' + req.body.chatroom + '/user/' + req.session.passport.user);
 		});
 	},
 
