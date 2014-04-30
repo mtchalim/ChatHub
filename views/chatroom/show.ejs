@@ -3,8 +3,7 @@
 	<div id="messages">
 		<% for(var i=0; i<chatroom.messages.length; i++) { %>
 			<p>
-				<b><%= chatroom.messages[i].posterName %>:</b>
-				<%= chatroom.messages[i].message %>
+				<b><%= chatroom.messages[i].posterName %>: </b><%= chatroom.messages[i].message %>
 			</p>
 		<% } %>
 	</div>
@@ -18,13 +17,21 @@
 	<script type="text/javascript">
 	$(function() {
 
+		window.addEventListener('beforeunload', function(e) {
+			io.socket.get('/chatroom/leaveRoom/' + location.pathname.split('/')[3]);
+		});
+
 		io.socket.get('/chatroom/joinRoom/' + location.pathname.split('/')[3]);
 		io.socket.on('join', function (data) {
 			console.log(data.msg);
 		});
+		io.socket.on('leave', function (data) {
+			console.log(data.msg);
+		});
+
 		io.socket.on('created', function (data) {
 			$('#messages').append(
-				'<p><b>' + data.poster + ':</b>' + data.msg + '</p>');
+				'<p><b>' + data.poster + ': </b>' + data.msg + '</p>');
 		});
 		$('#chat-input').on('submit', function (e) {
 			e.preventDefault();
