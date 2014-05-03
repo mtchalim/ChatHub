@@ -16,7 +16,6 @@
 	</form>
 	<script type="text/javascript">
 	$(function() {
-
 		window.addEventListener('beforeunload', function(e) {
 			io.socket.get('/chatroom/leaveRoom/' + location.pathname.split('/')[3]);
 		});
@@ -42,7 +41,15 @@
 		})
 	});
 	</script>
-	<form action="/chatroom/invite/<%= chatroom.id %>/user/<%= chatroom.owner %>/roomName/<%= chatroom.name %>" method="POST">
+	<div id="js-invite-container">
+	</div>
+	<div id="hidden-fields">
+		<input id="room-owner" type="hidden" value="<%= chatroom.owner %>">
+		<input id="curr-user" type="hidden" value="<%= currentUser %>">
+	</div>
+	<% if(currentUser == chatroom.owner) { %>
+	<form id="invite-users" action="/chatroom/invite/<%= chatroom.id %>/user/<%= chatroom.owner %>/roomName/<%= chatroom.name %>" method="POST">
 		<button type="submit" class="btn btn-default">Invite Users</button>
 	</form>
+	<% } %>
 </div>
