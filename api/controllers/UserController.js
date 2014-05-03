@@ -42,6 +42,10 @@ module.exports = {
 		});
 	},
 
+	listen: function (req, res, next) {
+		sails.sockets.join(req.socket, req.session.passport.user);
+	},
+
 	grantRoomAccess: function(req, res, next) {
 		User.findOne(req.body.userId)
 		.populate('allowedRooms')
@@ -50,7 +54,8 @@ module.exports = {
 
 			user.allowedRooms.add(req.body.chatroom);
 			user.save(function (err) {});
-			res.redirect('/chatroom/invite/' + req.body.chatroom + '/user/' + req.session.passport.user);
+			sails.sockets.broadcast(user.id, 'grant', {msg: "You've been granted access to a new room.", room: req.body.chatroom, roomName: req.body.chatroomName }, req.socket);
+			res.redirect('/chatroom/invite/' + req.body.chatroom + '/user/' + req.session.passport.user + '/roomName/' + req.body.chatroomName);
 		});
 	},
 
@@ -62,7 +67,8 @@ module.exports = {
 
 			user.allowedRooms.remove(req.body.chatroom);
 			user.save(function (err) {});
-			res.redirect('/chatroom/invite/' + req.body.chatroom + '/user/' + req.session.passport.user);
+			sails.sockets.broadcast(user.id, 'revoke', {msg: "You've been denied access to a room.", room: req.body.chatroom }, req.socket);
+			res.redirect('/chatroom/invite/' + req.body.chatroom + '/user/' + req.session.passport.user + '/roomName/' + req.body.chatroomName);
 		});
 	},
 
@@ -79,7 +85,8 @@ module.exports = {
 
 			res.view({
 				users: userList,
-				chatroom: req.param('id')
+				chatroom: req.param('id'),
+				chatroomName: req.param('roomName')
 			});
 		});
 	}

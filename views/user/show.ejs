@@ -4,14 +4,14 @@
 	<p><%= user.id %></p>
 	<p><%= user.email %></p>
 	<h2>My Rooms</h2>
-	<ul>
+	<ul id="chat-list">
 		<% for(var i=0; i<user.rooms.length; i++) { %>
-			<li><a href="/chatroom/show/<%= user.rooms[i].id %>">
+			<li id="room-<%= user.rooms[i].id %>"><a href="/chatroom/show/<%= user.rooms[i].id %>">
 				<%= user.rooms[i].name %></a>
 			</li>
 		<% } %>
 		<% for(var i=0; i<user.allowedRooms.length; i++) { %>
-			<li><a href="/chatroom/show/<%= user.allowedRooms[i].id %>">
+			<li id="room-<%= user.allowedRooms[i].id %>"><a href="/chatroom/show/<%= user.allowedRooms[i].id %>">
 				<%= user.allowedRooms[i].name %></a>
 			</li>
 		<% } %>
@@ -24,3 +24,19 @@
 		<button type="submit" class="btn btn-default">Create chat</button>
 	</form>
 </div>
+<script type="text/javascript">
+$(function() {
+
+	io.socket.get('/user/listen/' + location.pathname.split('/')[3]);
+
+	io.socket.on('grant', function (data) {
+		console.log(data.msg);
+		$('#chat-list').append(
+			"<li id='room-" + data.room + "'><a href=/chatroom/show/" + data.room + ">" + data.roomName +"</a></li>");
+	});
+	io.socket.on('revoke', function (data) {
+		console.log(data.msg);
+		$('#room-'+data.room).remove();
+	});
+})
+</script>

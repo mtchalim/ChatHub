@@ -7,12 +7,14 @@
 		<% if(!_.contains(allowedRoomList, chatroom)) { %>
 		<form action="/user/grantRoomAccess" method="POST">
 			<input type="hidden" name="chatroom" value="<%= chatroom %>">
+			<input type="hidden" name="chatroomName" value="<%= chatroomName %>">
 			<input type="hidden" name="userId" value="<%= users[i].id %>">
 			<td><button type="submit" class="btn btn-success">Add</button></td>
 		</form>
 		<% } else { %>
 		<form action="/user/revokeRoomAccess" method="POST">
 			<input type="hidden" name="chatroom" value="<%= chatroom %>">
+			<input type="hidden" name="chatroomName" value="<%= chatroomName %>">
 			<input type="hidden" name="userId" value="<%= users[i].id %>">
 			<td><button type="submit" class="btn btn-danger">Remove</button></td>
 		</form>
