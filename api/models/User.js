@@ -43,23 +43,24 @@ module.exports = {
     messages: {
       collection: 'Message',
       via: 'poster'
+    },
+    
+    toJSON: function () {
+      var obj = this.toObject();
+      delete obj.password;
+      return obj;
     }
   },
 
   beforeCreate: function (user, next) {
-  	bcrypt.hash(user.password, 10, function (err, hash) {
-  		if (err) next(err);
+    bcrypt.hash(user.password, 10, function (err, hash) {
+      if (err) next(err);
 
-  		user.password = hash;
-  		next(null, user);
-  	});
-  },
-
-  toJSON: function () {
-    var obj = this.toObject();
-    delete obj.password;
-    return obj;
+      user.password = hash;
+      next(null, user);
+    });
   }
+
 
 };
 

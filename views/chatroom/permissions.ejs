@@ -1,0 +1,18 @@
+<table class="table table-hover">
+	<% for(var i=0; i<users.length; i++) { %>
+	<tr>
+		<td><%= users[i].firstName %> <%= users[i].lastName %></td>
+		<td><%= users[i].email %></td>
+		<% var allowedRoomList = _.pluck(users[i].allowedRooms, 'id') %>
+		<% if(!_.contains(allowedRoomList, chatroom)) { %>
+		<td>
+			<button class="permission-action btn btn-success" data-action="/chatroom/grantRoomAccess" data-room="<%= chatroom %>" data-user="<%= users[i].id %>">Add</button>
+		</td>
+		<% } else { %>
+		<td>
+			<button class="permission-action btn btn-danger" data-action="/chatroom/revokeRoomAccess" data-room="<%= chatroom %>" data-user="<%= users[i].id %>">Remove</button>
+		</td>
+		<% } %>
+	</tr>
+	<% } %>
+</table>

@@ -18,21 +18,21 @@
  * http://links.sailsjs.org/docs/config/connections
  */
 
-module.exports.connections = {
+// module.exports.connections = {
 
-  'default': 'mongo',
+//   'default': 'mongo',
 
-  mongo: {
-    module   : 'sails-mongo',
-    url      : process.env.MONGOLAB_URI || 'mongodb://localhost:27017/sails',
-    schema   : true
-  }
+//   mongo: {
+//     module   : 'sails-mongo',
+//     url      : process.env.MONGOLAB_URI || 'mongodb://localhost:27017/sails',
+//     schema   : true
+//   }
 
 
-  // More adapters:
-  // https://github.com/balderdashy/sails
+//   // More adapters:
+//   // https://github.com/balderdashy/sails
 
-};
+// };
 
 
 

@@ -56,6 +56,57 @@ module.exports = {
 
 		sails.sockets.broadcast(room, 'leave', {msg: req.session.displayName + ' has left the room.'}, req.socket);
 		sails.sockets.leave(req.socket, room);
+	},
+
+	grantRoomAccess: function(req, res, next) {
+		var chatRoomName = "";
+
+		Chatroom.findOne(req.param('room'), function (err, chatroom) {
+			if (err) return next(err);
+			chatRoomName = chatroom.name;
+		});
+
+		User.findOne(req.param('user'))
+		.populate('allowedRooms')
+		.exec(function (err, user) {
+			if (err) return next(err);
+
+			user.allowedRooms.add(req.param('room'));
+			user.save(function (err) {});
+			sails.sockets.broadcast(user.id, 'grant', {msg: "You've been granted access to a new room.", room: req.param('room'), roomName: chatRoomName }, req.socket);
+		});
+		return res.send({ action: "added", status: 200 });
+	},
+
+	revokeRoomAccess: function(req, res, next) {
+		User.findOne(req.param('user'))
+		.populate('allowedRooms')
+		.exec(function (err, user) {
+			if (err) return next(err);
+
+			user.allowedRooms.remove(req.param('room'));
+			user.save(function (err) {});
+			sails.sockets.broadcast(user.id, 'revoke', {msg: "You've been denied access to a room.", room: req.param('room') }, req.socket);
+		});
+		return res.send({ action: "removed", status: 200 });
+	},
+
+	permissions: function (req, res, next) {
+		User.find()
+		.populate('allowedRooms')
+		.exec(function (err, users) {
+			if (err) return next(err);
+			if (!users) return next();
+
+			var userList = _.reject(users, function (usr) {
+				return usr.id == req.session.passport.user;
+			});
+
+			res.render('chatroom/permissions', {
+				users: userList,
+				chatroom: req.param('id')
+			});
+		});
 	}
 	
 };
